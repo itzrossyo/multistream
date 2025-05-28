@@ -4,11 +4,15 @@ import React, {useState, useRef, useEffect, memo, useCallback} from 'react';
 import {Plus, X, Volume2, VolumeX, Maximize2, Settings} from 'lucide-react';
 
 const getEmbedUrl = (stream) => {
+    // For Twitch, we need to use only the hostname without port
     const hostname = typeof window !== 'undefined' ? window.location.hostname : 'localhost';
+
     if (stream.platform === 'twitch') {
-        return `https://player.twitch.tv/?channel=${stream.channel}&parent=${hostname}&allowfullscreen=true`;
+        // Twitch only accepts hostname without port and doesn't like special characters
+        return `https://player.twitch.tv/?channel=${stream.channel}&parent=${hostname}&muted=1`;
     } else if (stream.platform === 'kick') {
-        return `https://player.kick.com/${stream.channel}?allowfullscreen=true`;
+        // Use Kick's embed player URL
+        return `https://player.kick.com/${stream.channel}`;
     }
     return '';
 };
