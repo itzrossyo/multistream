@@ -4,10 +4,11 @@ import React, {useState, useRef, useEffect, memo, useCallback} from 'react';
 import {Plus, X, Volume2, VolumeX, Maximize2, Settings} from 'lucide-react';
 
 const getEmbedUrl = (stream) => {
+    const hostname = typeof window !== 'undefined' ? window.location.hostname : 'localhost';
     if (stream.platform === 'twitch') {
-        return `https://player.twitch.tv/?channel=${stream.channel}&parent=localhost&parent=claude.ai`;
+        return `https://player.twitch.tv/?channel=${stream.channel}&parent=${hostname}&allowfullscreen=true`;
     } else if (stream.platform === 'kick') {
-        return `https://player.kick.com/${stream.channel}`;
+        return `https://player.kick.com/${stream.channel}?allowfullscreen=true`;
     }
     return '';
 };
